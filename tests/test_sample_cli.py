@@ -7,16 +7,22 @@ def test_hello():
     assert hello() == 'hello'
 
 
-out_1 = ("""
-Id    Name                           State
+out01 = ("""
+ Id    Name                           State
 ----------------------------------------------------
  3     instance-000003db              running
  4     instance-0000047a              running
 """)
 
+out02 = ("""
+ Id    Name                           State
+----------------------------------------------------
+ 3     instance-000003db              running
+ -     instance-00000015              shut off
+""")
 
-out_2 = ("""
-Id    Name                           State
+out88 = ("""
+ Id    Name                           State
 ----------------------------------------------------
  3     instance-000003db              running
  4     instance-0000047a              running
@@ -29,17 +35,44 @@ Id    Name                           State
 
 
 def test_parse_virsh_list_output():
-    res_dict = {
-        'instance-000003db': {
+    res_list = [
+        {
             'Id': '3',
             'Name': 'instance-000003db',
             'State': 'running',
         },
-        'instance-0000047a': {
+        {
             'Id': '4',
             'Name': 'instance-0000047a',
             'State': 'running',
-        },
-    }
+        }
+    ]
 
-    assert parse_virsh_list_output(out_1) == res_dict
+    # print '\n'
+    # print 'out01:'
+    # print(out01)
+    #
+    # print '\n'
+    # print('out01.splitlines()')
+    # print(out01.splitlines())
+    #
+    # print '----'
+
+    assert parse_virsh_list_output(out01, 3) == res_list
+
+
+def test_parse_virsh_list_output02():
+    res_list = [
+        {
+            'Id': '3',
+            'Name': 'instance-000003db',
+            'State': 'running',
+        },
+        {
+            'Id': '-',
+            'Name': 'instance-00000015',
+            'State': 'shut off',
+        }
+    ]
+
+    assert parse_virsh_list_output(out02, 3) == res_list
