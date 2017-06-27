@@ -1,6 +1,16 @@
-env:
-- TOXENV=py27
-install: pip install -U tox
+sudo: false
+dist: trusty
+
 language: python
-python: 2.7
-script: tox -e ${TOXENV}
+
+python:
+  - 2.7
+
+env:
+  - TOXENV=py27
+
+install:
+  - pip install -U tox
+
+script:
+  - tox -e ${TOXENV}
