@@ -1,6 +1,13 @@
 sudo: false
 dist: trusty
 
+git:
+  depth: 8
+
+branches:
+  only:
+    - master
+
 language: python
 
 python:
